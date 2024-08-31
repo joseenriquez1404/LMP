@@ -2,9 +2,13 @@
 <html>
 <head>
     <title>Agenda</title>
-    <!-- Incluir el CSS de Ionic -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.min.css">
     <link rel="stylesheet" href="../static/styles.css">
+    <style>
+        .title {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
     <h1 class="title">Eventos</h1>
@@ -23,7 +27,15 @@
         {% endfor %}
     </ul>
 
-    <!-- Incluir el JS de Ionic -->
+    <!-- Botón FAB que redirige a agregar.html -->
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+        <a href="{{ url_for('main.agregar') }}">
+            <ion-fab-button>
+                <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+        </a>
+    </ion-fab>
+
     <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
 </body>

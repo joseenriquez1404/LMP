@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agregar Evento</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.min.css">
+</head>
+<body>
+    <h1>Agregar Evento</h1>
+    <!-- Aquí puedes agregar el formulario para agregar un nuevo evento -->
+    <form action="{{ url_for('main.agregar') }}" method="post">
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" name="titulo" required>
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" required></textarea>
+        <label for="fecha">Fecha:</label>
+        <input type="datetime-local" id="fecha" name="fecha" required>
+        <button type="submit">Agregar Evento</button>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+</body>
+</html>
