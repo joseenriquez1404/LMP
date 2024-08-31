@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agenda</title>
+    <!-- Incluir el CSS de Ionic -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.min.css">
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <h1 class="title">Eventos</h1>
+    <ul>
+        {% for evento in eventos %}
+            <ion-card>
+                <ion-card-header>
+                  <ion-card-title>{{ evento['titulo'] }}</ion-card-title>
+                  <ion-card-subtitle>{{ evento['fecha'].strftime('%Y-%m-%d %H:%M:%S') }}</ion-card-subtitle>
+                </ion-card-header>
+              
+                <ion-card-content>
+                  {{ evento['descripcion'] }}
+                </ion-card-content>
+            </ion-card>
+        {% endfor %}
+    </ul>
+
+    <!-- Incluir el JS de Ionic -->
+    <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+</body>
+</html>
