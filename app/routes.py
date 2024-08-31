@@ -17,19 +17,6 @@ def index():
         print(f"Error: {e}")
         return "Internal Server Error", 500
 
-@main.route('/event/<int:id>')
-def event(id):
-    try:
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM eventos WHERE id = %s', (id,))
-        evento = cursor.fetchone()
-        cursor.close()
-        if evento:
-            return render_template('event.html', evento=evento)
-        return 'Evento no encontrado', 404
-    except Exception as e:
-        print(f"Error: {e}")
-        return "Internal Server Error", 500
 
 @main.route('/agregar', methods=['GET', 'POST'])
 def agregar():
