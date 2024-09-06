@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agenda</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.min.css">
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script type="module" src="https://unpkg.com/@ionic/core@latest/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://unpkg.com/@ionic/core@latest/dist/ionic/ionic.js"></script>
     <style>
         .title {
             text-align: center;
@@ -11,32 +15,64 @@
     </style>
 </head>
 <body>
-    <h1 class="title">Eventos</h1>
-    <ul>
-        {% for evento in eventos %}
-            <ion-card>
-                <ion-card-header>
-                  <ion-card-title>{{ evento['titulo'] }}</ion-card-title>
-                  <ion-card-subtitle>{{ evento['fecha'].strftime('%Y-%m-%d %H:%M:%S') }}</ion-card-subtitle>
-                </ion-card-header>
-              
-                <ion-card-content>
-                  {{ evento['descripcion'] }}
-                </ion-card-content>
-            </ion-card>
-        {% endfor %}
-    </ul>
+    <ion-header>
+        <ion-toolbar color="primary">
+            <ion-title class="title">Eventos</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+        <ion-list>
+            {% for evento in eventos %}
+            <ion-item-sliding>
+                <ion-item lines="none" style="padding: 0;">
+                    <ion-card style="width: 100%; margin: 0;">
+                        <ion-card-header>
+                            <ion-card-title>{{ evento['titulo'] }}</ion-card-title>
+                            <ion-card-subtitle>{{ evento['fecha'].strftime('%Y-%m-%d %H:%M:%S') }}</ion-card-subtitle>
+                        </ion-card-header>
+                        <ion-card-content>
+                            {{ evento['descripcion'] }}
+                        </ion-card-content>
+                    </ion-card>
+                </ion-item>
+                <ion-item-options side="end">
+                    <!-- Opción para eliminar evento -->
+                    <ion-item-option color="danger" onclick="document.getElementById('form-eliminar-{{ evento['id'] }}').submit();">
+                        Eliminar
+                    </ion-item-option>
+
+                    <!-- Opción para editar evento -->
+                    <ion-item-option color="tertiary">
+                        <a href="{{ url_for('main.editar', id=evento['id']) }}" style="color: white; text-decoration: none;">
+                            Editar
+                        </a>
+                    </ion-item-option>
+                    
+                    
+                </ion-item-options>
+            </ion-item-sliding>
+
+            <!-- Formulario oculto para eliminar -->
+            <form id="form-eliminar-{{ evento['id'] }}" action="{{ url_for('main.eliminar_evento', id=evento['id']) }}" method="POST" style="display: none;">
+                <input type="hidden" name="evento_id" value="{{ evento['id'] }}">
+            </form>
+
+            <!-- Formulario oculto para editar -->
+            <form id="form-editar-{{ evento['id'] }}" action="{{ url_for('main.editar', id=evento['id']) }}" method="GET" style="display: none;">
+                <input type="hidden" name="evento_id" value="{{ evento['id'] }}">
+            </form>
+            {% endfor %}
+        </ion-list>
+    </ion-content>
 
     <!-- Botón FAB que redirige a agregar.html -->
-    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <a href="{{ url_for('main.agregar') }}">
             <ion-fab-button>
                 <ion-icon name="add"></ion-icon>
             </ion-fab-button>
         </a>
     </ion-fab>
-
-    <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
 </body>
 </html>
