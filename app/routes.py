@@ -52,11 +52,25 @@ def eliminar_evento(id):
 
 @main.route('/editar/<int:id>', methods=['GET', 'POST'])
 def editar(id):
-    if request.method == 'POST':
+    if request.method == 'GET':
         try:
-            nuevo_titulo = request.form['titulo']
-            nueva_descripcion = request.form['descripcion']
-            nueva_fecha = request.form['fecha']
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute('SELECT * FROM eventos WHERE id = %s', (id,))
+            evento = cursor.fetchone()
+            cursor.close()
+            if evento:
+                return render_template('editar.html', evento=evento)
+            else:
+                return "Evento no encontrado", 404
+        except Exception as e:
+            print(f"Error al obtener el evento para editar: {e}")
+            return "Internal Server Error", 500
+
+    elif request.method == 'POST':
+        try:
+            nuevo_titulo = request.form.get('titulo')
+            nueva_descripcion = request.form.get('descripcion')
+            nueva_fecha = request.form.get('fecha')
 
             cursor = mysql.connection.cursor()
             cursor.execute('''
@@ -71,13 +85,3 @@ def editar(id):
         except Exception as e:
             print(f"Error al editar el evento: {e}")
             return "Internal Server Error", 500
-
-    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('SELECT * FROM eventos WHERE id = %s', (id,))
-    evento = cursor.fetchone()
-    cursor.close()
-
-    if evento is None:
-        return "Evento no encontrado", 404
-
-    return render_template('editar.html', evento=evento)

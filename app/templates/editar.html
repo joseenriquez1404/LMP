@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Evento</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <style>
@@ -21,83 +22,22 @@
 <body>
     <div class="form-container">
         <h2>Editar Evento</h2>
-        <form action="{{ url_for('main.editar_evento', id=evento['id']) }}" method="POST">
-            <!-- Campo para el título -->
+        <form action="{{ url_for('main.editar', id=evento['id']) }}" method="POST">
             <ion-item>
                 <ion-label position="stacked">Título:</ion-label>
                 <ion-input type="text" name="titulo" value="{{ evento['titulo'] }}" required></ion-input>
             </ion-item>
 
-            <!-- Campo para la descripción -->
             <ion-item>
                 <ion-label position="stacked">Descripción:</ion-label>
                 <ion-textarea name="descripcion" required>{{ evento['descripcion'] }}</ion-textarea>
             </ion-item>
 
-            <!-- Campo para la fecha -->
-            <ion-item><!DOCTYPE html>
-                <html lang="es">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Editar Evento</title>
-                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css">
-                    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-                    <script type="module" src="https://unpkg.com/@ionic/core@latest/dist/ionic/ionic.esm.js"></script>
-                    <script nomodule src="https://unpkg.com/@ionic/core@latest/dist/ionic/ionic.js"></script>
-                    <style>
-                        .form-container {
-                            max-width: 600px;
-                            margin: auto;
-                            padding: 20px;
-                        }
-                        ion-item {
-                            margin-bottom: 15px;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <ion-header>
-                        <ion-toolbar color="primary">
-                            <ion-title>Editar Evento</ion-title>
-                        </ion-toolbar>
-                    </ion-header>
-                
-                    <ion-content>
-                        <div class="form-container">
-                            <form action="{{ url_for('main.editar', id=evento['id']) }}" method="POST">
-                                <ion-item>
-                                    <ion-label position="stacked">Título:</ion-label>
-                                    <ion-input type="text" name="titulo" value="{{ evento['titulo'] }}" required></ion-input>
-                                </ion-item>
-                
-                                <ion-item>
-                                    <ion-label position="stacked">Descripción:</ion-label>
-                                    <ion-textarea name="descripcion" required>{{ evento['descripcion'] }}</ion-textarea>
-                                </ion-item>
-                
-                                <ion-item>
-                                    <ion-label position="stacked">Fecha:</ion-label>
-                                    <ion-datetime display-format="YYYY-MM-DDTHH:mm:ss" name="fecha" value="{{ evento['fecha'].strftime('%Y-%m-%dT%H:%M:%S') }}" required></ion-datetime>
-                                </ion-item>
-                
-                                <ion-button expand="block" type="submit">Guardar cambios</ion-button>
-                            </form>
-                        </div>
-                    </ion-content>
-                </body>
-                </html>
-                
+            <ion-item>
                 <ion-label position="stacked">Fecha:</ion-label>
-                <ion-datetime 
-                    display-format="YYYY-MM-DD HH:mm:ss" 
-                    name="fecha" 
-                    value="{{ evento['fecha'].strftime('%Y-%m-%dT%H:%M:%S') }}" 
-                    required>
-                </ion-datetime>
+                <ion-datetime display-format="YYYY-MM-DD HH:mm:ss" name="fecha" value="{{ evento['fecha'].strftime('%Y-%m-%dT%H:%M:%S') }}" required></ion-datetime>
             </ion-item>
 
-            <!-- Botón para guardar los cambios -->
             <ion-button expand="block" type="submit">Guardar cambios</ion-button>
         </form>
     </div>

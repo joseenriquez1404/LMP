@@ -12,6 +12,47 @@
         .title {
             text-align: center;
         }
+        .card-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .card-actions a, .card-actions button {
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+            width: 100px; /* Ancho fijo para igualar los botones */
+            text-align: center;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        .card-actions a {
+            background-color: #3880ff; /* Color principal de Ionic */
+            color: white;
+            text-decoration: none;
+        }
+        .card-actions a:hover {
+            background-color: #3171e0; /* Color más oscuro en hover */
+        }
+        .card-actions button {
+            background-color: #f53d3d; /* Color de eliminación */
+            color: white;
+        }
+        .card-actions button:hover {
+            background-color: #c72c2c; /* Color más oscuro en hover */
+        }
     </style>
 </head>
 <body>
@@ -24,44 +65,28 @@
     <ion-content>
         <ion-list>
             {% for evento in eventos %}
-            <ion-item-sliding>
-                <ion-item lines="none" style="padding: 0;">
-                    <ion-card style="width: 100%; margin: 0;">
-                        <ion-card-header>
-                            <ion-card-title>{{ evento['titulo'] }}</ion-card-title>
-                            <ion-card-subtitle>{{ evento['fecha'].strftime('%Y-%m-%d %H:%M:%S') }}</ion-card-subtitle>
-                        </ion-card-header>
-                        <ion-card-content>
-                            {{ evento['descripcion'] }}
-                        </ion-card-content>
-                    </ion-card>
-                </ion-item>
-                <ion-item-options side="end">
-                    <!-- Opción para eliminar evento -->
-                    <ion-item-option color="danger" onclick="document.getElementById('form-eliminar-{{ evento['id'] }}').submit();">
-                        Eliminar
-                    </ion-item-option>
-
-                    <!-- Opción para editar evento -->
-                    <ion-item-option color="tertiary">
-                        <a href="{{ url_for('main.editar', id=evento['id']) }}" style="color: white; text-decoration: none;">
-                            Editar
-                        </a>
-                    </ion-item-option>
-                    
-                    
-                </ion-item-options>
-            </ion-item-sliding>
-
-            <!-- Formulario oculto para eliminar -->
-            <form id="form-eliminar-{{ evento['id'] }}" action="{{ url_for('main.eliminar_evento', id=evento['id']) }}" method="POST" style="display: none;">
-                <input type="hidden" name="evento_id" value="{{ evento['id'] }}">
-            </form>
-
-            <!-- Formulario oculto para editar -->
-            <form id="form-editar-{{ evento['id'] }}" action="{{ url_for('main.editar', id=evento['id']) }}" method="GET" style="display: none;">
-                <input type="hidden" name="evento_id" value="{{ evento['id'] }}">
-            </form>
+            <ion-item lines="none" style="padding: 0;">
+                <ion-card style="width: 100%; margin: 0;">
+                    <ion-card-header>
+                        <ion-card-title>{{ evento['titulo'] }}</ion-card-title>
+                        <ion-card-subtitle>{{ evento['fecha'].strftime('%Y-%m-%d %H:%M:%S') }}</ion-card-subtitle>
+                    </ion-card-header>
+                    <ion-card-content>
+                        {{ evento['descripcion'] }}
+                    </ion-card-content>
+                </ion-card>
+                <div class="card-container">
+                    <div class="card-actions">
+                        <!-- Botón para editar evento -->
+                        <a href="{{ url_for('main.editar', id=evento['id']) }}">Editar</a>
+                        <!-- Botón para eliminar evento -->
+                        <form action="{{ url_for('main.eliminar_evento', id=evento['id']) }}" method="POST" style="display: inline;">
+                            <input type="hidden" name="evento_id" value="{{ evento['id'] }}">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </ion-item>
             {% endfor %}
         </ion-list>
     </ion-content>
